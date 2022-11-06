@@ -1,0 +1,11 @@
+version: '3'
+services:
+  database:
+    image: 'postgres:latest'
+    ports:
+      - 9090:5432
+
+    environment:
+      POSTGRES_USER: root # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: toor # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: divida_db # The PostgreSQL default database (automatically created at first launch)

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "dividas-api"
+version = "0.1.0"
+description = ""
+authors = ["Gabriel <pgabrieldeveloper@outlook.com>"]
+readme = "README.md"
+packages = [{include = "dividas_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.85.1"
+sqlalchemy = {extras = ["asyncio"], version = "^1.4.42"}
+alembic = "^1.8.1"
+psycopg2-binary = "^2.9.5"
+asyncpg = "^0.27.0"
+python-dotenv = "^0.21.0"
+greenlet = "^2.0.0.post0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

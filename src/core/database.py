@@ -30,7 +30,7 @@ async def create_session() -> AsyncSession:
      class_= AsyncSession, 
      expire_on_commit=False
     )
-    session: AsyncSession = async_session()
+    session: Sess = async_session()
     return session
 
 #Base

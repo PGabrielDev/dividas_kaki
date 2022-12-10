@@ -1,6 +1,7 @@
 import src.core.database as db
 from src.dividas import models
 from src.dividas import entities
+import sqlalchemy as sa
 class DividasReposiry:
 
     def __init__(self):
@@ -22,7 +23,6 @@ class DividasReposiry:
     async def create_divida(self, divida_create: models.DividasCreateRequest) -> models.DividasResponse:
         if not self._session:
             self._session = await db.create_session()
-        print("teste")
         divida = entities.Divida(
             valor=divida_create.valor,
             descricao=divida_create.descricao,
@@ -41,3 +41,26 @@ class DividasReposiry:
             status = divida.status,
             devedor_id = divida.devedor_id,
         )
+
+    async def listDebs(self, id_devedor: int, name: str= ""):
+        if not self._session:
+            self._session = await db.create_session()
+        _select = (sa.select(
+            entities.Devedor,
+            entities.Divida
+        ).join(
+            entities.Divida,
+            entities.Divida.devedor_id == entities.Devedor.id
+        ).filter(
+            entities.Divida.devedor_id == id_devedor
+        ))
+        if name:
+            _select = _select.filter(
+                sa.and_(
+                    entities.Devedor.name.ilike(name)
+                )
+            )
+        result = await self._session.execute(_select)
+        debts = result.mappings().all()
+        return debts
+

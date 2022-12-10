@@ -28,3 +28,6 @@ class DividasResponse(Model):
     vencimento: datetime.datetime
     status: bool
     devedor_id: int
+
+class nameQuery(Model):
+    name: str = None

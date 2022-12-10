@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Gabriel <pgabrieldeveloper@outlook.com>"]
 readme = "README.md"
-packages = [{include = "dividas_api"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -15,6 +15,7 @@ psycopg2-binary = "^2.9.5"
 asyncpg = "^0.27.0"
 python-dotenv = "^0.21.0"
 greenlet = "^2.0.0.post0"
+uvicorn = "^0.20.0"
 
 
 [build-system]

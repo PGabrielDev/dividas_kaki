@@ -1,8 +1,8 @@
-"""create tables
+"""create tabÃles debts
 
-Revision ID: dfb01be1a7ad
+Revision ID: 2483e8243475
 Revises: 
-Create Date: 2022-11-06 15:39:28.349142
+Create Date: 2022-12-09 21:58:50.135162
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'dfb01be1a7ad'
+revision = '2483e8243475'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,10 +25,11 @@ def upgrade() -> None:
     )
     op.create_table('divida',
     sa.Column('id', sa.BigInteger(), nullable=False),
-    sa.Column('data_divida', sa.DateTime(), nullable=True),
+    sa.Column('data_divida', sa.Date(), nullable=True),
     sa.Column('valor', sa.DECIMAL(precision=8, scale=2), nullable=False),
     sa.Column('descricao', sa.TEXT(), nullable=False),
-    sa.Column('vencimento', sa.DateTime(), nullable=True),
+    sa.Column('vencimento', sa.Date(), nullable=True),
+    sa.Column('status', sa.Boolean(), nullable=True),
     sa.Column('devedor_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['devedor_id'], ['devedor.id'], ),
     sa.PrimaryKeyConstraint('id')

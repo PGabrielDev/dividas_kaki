@@ -1,17 +1,21 @@
 import asyncio
+
+import dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from dotenv import load_dotenv, dotenv_values
-from src.dividas.entities import Devedor
-import sqlalchemy as sa
-
+import os
+from src.core.get_env import GetEnvOrDefault
 
 #create engine
 async def create_engine() -> AsyncEngine:
-
-    envs = dotenv_values()
-    url = f"postgresql+asyncpg://{envs['DB_USER']}:{envs['DB_PASSWORD']}@{envs['DB_HOST']}:{envs['DB_PORT']}/{envs['DB_NAME']}"
+    envs = GetEnvOrDefault(os)
+    DB_USER = envs.get_env('DB_USER')
+    DB_PASSWORD = envs.get_env('DB_PASSWORD')
+    DB_PORT = envs.get_env('DB_PORT')
+    DB_NAME = envs.get_env('DB_NAME')
+    DB_HOST = envs.get_env('DB_HOST')
+    url = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     print(url)
     engine = create_async_engine(
         url=url,

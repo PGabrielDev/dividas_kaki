@@ -1,0 +1,5 @@
+DB_USER=root
+DB_PASSWORD=toor
+DB_HOST=localhost
+DB_PORT=9090
+DB_NAME=divida_db

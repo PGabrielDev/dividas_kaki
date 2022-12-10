@@ -1,5 +1,10 @@
-from src.dividas.teste import insert, select
-import  asyncio
+from fastapi import FastAPI
+from src.router import router
 
 
-asyncio.run(insert())
+app = FastAPI()
+app.include_router(router=router)
+
+
+
+

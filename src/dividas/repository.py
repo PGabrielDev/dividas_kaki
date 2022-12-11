@@ -88,3 +88,19 @@ class DividasReposiry:
         debts = result.mappings().all()
         return create_response_devedor_divida(debts)
 
+    async def list_devedores(self):
+        if not self._session:
+            self._session = await db.create_session()
+        result = await self._session.execute(sa.select(entities.Devedor))
+
+        devedores_entity = result.mappings().all()
+        devedores = []
+        for devedor in devedores_entity:
+            devedor = devedor["Devedor"]
+            devedores.append(
+                models.DevedorResponse(
+                    id=devedor.id,
+                    name=devedor.name
+                )
+            )
+        return devedores

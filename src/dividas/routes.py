@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from src.dividas import models
 from src.dividas import  use_cases
-
+from typing import List
 
 dividas_router = APIRouter()
 
@@ -18,9 +18,13 @@ async def create_divida(
     return await use_cases.CreateDividaUseCase(request).execute()
 
 
-@dividas_router.get("/{id}")
-async def listDebtsbyDevedor(
+@dividas_router.get("/{id}", response_model=models.DevedorDividasResponse)
+async def list_debts_by_devedor(
         id: int,
         name: models.nameQuery = Depends(models.nameQuery),
 ):
     return await use_cases.ListDebtsByDevedorUseCase(id,name.name).execute()
+
+@dividas_router.get("devedores", response_model=List[models.DevedorResponse])
+async def list_devedores():
+    return await use_cases.ListDevedorUseCase().execute()

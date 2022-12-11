@@ -2,6 +2,30 @@ import src.core.database as db
 from src.dividas import models
 from src.dividas import entities
 import sqlalchemy as sa
+
+def create_response_devedor_divida(dict):
+    devedor = models.DevedorResponse(id=dict[0]["Devedor"].id, name=dict[0]["Devedor"].name)
+    debts = []
+    for debt in dict:
+        debt = debt["Divida"]
+        debts.append(
+            models.DividasResponse(
+                id=debt.id,
+                descricao=debt.descricao,
+                status=debt.status,
+                valor=debt.valor,
+                vencimento=debt.vencimento,
+                data_divida=debt.data_divida,
+                devedor_id=debt.devedor_id,
+            )
+        )
+        return  models.DevedorDividasResponse(
+            devedor=devedor,
+            dividas=debts
+        )
+
+
+
 class DividasReposiry:
 
     def __init__(self):
@@ -62,5 +86,5 @@ class DividasReposiry:
             )
         result = await self._session.execute(_select)
         debts = result.mappings().all()
-        return debts
+        return create_response_devedor_divida(debts)
 

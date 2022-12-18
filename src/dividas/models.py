@@ -1,19 +1,19 @@
 import datetime
 from decimal import Decimal
-from src.core.settings import Model
+from src.core.settings import settings
 from typing import  List
 
 
-class DevedorCreateRequest(Model):
+class DevedorCreateRequest(settings.Model):
     name: str
 
 
-class DevedorResponse(Model):
+class DevedorResponse(settings.Model):
     id: int
     name: str
 
 
-class DividasCreateRequest(Model):
+class DividasCreateRequest(settings.Model):
     data_divida: datetime.date
     valor: Decimal
     descricao: str
@@ -21,7 +21,7 @@ class DividasCreateRequest(Model):
     devedor_id: int
 
 
-class DividasResponse(Model):
+class DividasResponse(settings.Model):
     id: int
     data_divida: datetime.date
     valor: Decimal
@@ -30,8 +30,8 @@ class DividasResponse(Model):
     status: bool
     devedor_id: int
 
-class DevedorDividasResponse(Model):
+class DevedorDividasResponse(settings.Model):
     devedor: DevedorResponse
     dividas: List[DividasResponse]
-class nameQuery(Model):
+class nameQuery(settings.Model):
     name: str = None

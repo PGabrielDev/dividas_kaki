@@ -1,10 +1,10 @@
 from datetime import datetime
-from src.core.database import Base
+from src.core.settings import settings
 import sqlalchemy as sa
 
 
 
-class Devedor(Base):
+class Devedor(settings.DBBase_model):
     __tablename__: str = "devedor"
     id = sa.Column(sa.BigInteger, primary_key= True)
     name = sa.Column(sa.TEXT, nullable=False)
@@ -14,7 +14,7 @@ class Devedor(Base):
 
 
 
-class Divida(Base):
+class Divida(settings.DBBase_model):
     __tablename__: str = "divida"
     id = sa.Column(sa.BigInteger, primary_key= True)
     data_divida = sa.Column(sa.Date)

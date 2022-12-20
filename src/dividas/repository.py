@@ -32,11 +32,12 @@ class DividasReposiry:
         self._session = None
 
 
-    async def create_devedor(self, devedor_create: models.DevedorCreateRequest) -> models.DevedorResponse:
+    async def create_devedor(self, devedor_create: models.DevedorCreateRequest, user_id: int) -> models.DevedorResponse:
         if not self._session:
             self._session = await db.create_session()
         devedor = entities.Devedor(
-            name=devedor_create.name
+            name=devedor_create.name,
+            user_id=user_id
         )
         self._session.add(devedor)
         await self._session.commit()
@@ -88,10 +89,10 @@ class DividasReposiry:
         debts = result.mappings().all()
         return create_response_devedor_divida(debts)
 
-    async def list_devedores(self):
+    async def list_devedores(self, user_id: int):
         if not self._session:
             self._session = await db.create_session()
-        result = await self._session.execute(sa.select(entities.Devedor))
+        result = await self._session.execute(sa.select(entities.Devedor).filter(entities.Devedor.user_id == user_id))
 
         devedores_entity = result.mappings().all()
         devedores = []

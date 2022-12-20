@@ -8,6 +8,7 @@ class Devedor(settings.DBBase_model):
     __tablename__: str = "devedor"
     id = sa.Column(sa.BigInteger, primary_key= True)
     name = sa.Column(sa.TEXT, nullable=False)
+    user_id = sa.Column(sa.Integer,sa.ForeignKey('usuario.id'))
 
     def __repr__(self):
         return f"nome:{self.name}"

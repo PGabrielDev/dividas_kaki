@@ -14,13 +14,14 @@ from src.core import auth
 
 dividas_router = APIRouter()
 
-@dividas_router.post("devedor", response_model=models.DevedorResponse)
+@dividas_router.post("/devedor", response_model=models.DevedorResponse)
 async def create_devedor(
-    request: models.DevedorCreateRequest
+    request: models.DevedorCreateRequest,
+    usuario: Usuario = Depends(deps.get_current_user)
 ):
-    return await use_cases.CreateDevedorUseCase(request).execute()
+    return await use_cases.CreateDevedorUseCase(request,usuario.id).execute()
 
-@dividas_router.post("divida", response_model=models.DividasResponse)
+@dividas_router.post("/divida", response_model=models.DividasResponse)
 async def create_divida(
     request: models.DividasCreateRequest
 ):
@@ -34,9 +35,9 @@ async def list_debts_by_devedor(
 ):
     return await use_cases.ListDebtsByDevedorUseCase(id,name.name).execute()
 
-@dividas_router.get("devedores", response_model=List[models.DevedorResponse])
+@dividas_router.get("/devedores/", response_model=List[models.DevedorResponse])
 async def list_devedores(usuario: Usuario = Depends(deps.get_current_user)):
-    return await use_cases.ListDevedorUseCase().execute()
+    return await use_cases.ListDevedorUseCase(usuario.id).execute()
 
 
 @dividas_router.post("/signup", response_model=UsuarioModel)
@@ -55,7 +56,7 @@ async def create_user(usuario_create: UsuarioModelCreate, db = Depends(deps.get_
     return new_user
 
 @dividas_router.post("/signin")
-async  def register(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(deps.get_session)):
+async  def login(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(deps.get_session)):
     user = await auth.auth(form_data.username,form_data.password,db)
     if not user:
         HTTPException(status_code=400,detail='Dados de acesso incorretos')

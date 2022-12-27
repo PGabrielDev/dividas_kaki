@@ -19,10 +19,10 @@ def create_response_devedor_divida(dict):
                 devedor_id=debt.devedor_id,
             )
         )
-        return  models.DevedorDividasResponse(
-            devedor=devedor,
-            dividas=debts
-        )
+    return  models.DevedorDividasResponse(
+        devedor=devedor,
+        dividas=debts
+    )
 
 
 

@@ -11,7 +11,6 @@ python = "^3.10"
 fastapi = "^0.85.1"
 sqlalchemy = {extras = ["asyncio"], version = "^1.4.42"}
 alembic = "^1.8.1"
-psycopg2-binary = "^2.9.5"
 asyncpg = "^0.27.0"
 python-dotenv = "^0.21.0"
 greenlet = "^2.0.0.post0"
@@ -22,6 +21,7 @@ pydantic = {extras = ["email"], version = "^1.10.2"}
 bcrypt = "^4.0.1"
 python-multipart = "^0.0.5"
 pytz = "^2022.7"
+pyhumps = "^3.8.0"
 
 
 [build-system]

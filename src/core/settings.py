@@ -4,9 +4,10 @@ from pydantic import BaseModel
 
 from typing import List
 from pydantic import BaseSettings
-from sqlalchemy.ext.declarative import  declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 import os
 from src.core.get_env import GetEnvOrDefault
+from humps import camelize
 
 envs = GetEnvOrDefault(os)
 DB_USER = envs.get_env('DB_USER')
@@ -17,11 +18,19 @@ DB_HOST = envs.get_env('DB_HOST')
 url = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
+def to_camel(string):
+    return camelize(string)
+class BaseM(BaseModel):
+    class Config:
+        alias_generator = to_camel
+        allow_population_by_field_name = True
+
+
 class Settings(BaseSettings):
     API_V1_STR: str = 'api/v1'
     DB_URL: str = url
     DBBase_model = declarative_base()
-    Model = BaseModel
+    Model = BaseM
 
     JWT_SECRET: str = 'yEjQ7SFsASUIaFxc7drq7J_monHO2KoNSQKKuVspgBs'
     ALGORITHM: str = 'HS256'

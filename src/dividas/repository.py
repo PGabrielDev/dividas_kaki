@@ -77,12 +77,13 @@ class DividasReposiry:
             entities.Divida,
             entities.Divida.devedor_id == entities.Devedor.id
         ).filter(
-            entities.Divida.devedor_id == id_devedor
+            entities.Divida.devedor_id == id_devedor,
+            entities.Divida.status != True,
         ))
         if name:
             _select = _select.filter(
                 sa.and_(
-                    entities.Devedor.name.ilike(name)
+                    entities.Devedor.name.ilike(name),
                 )
             )
         result = await self._session.execute(_select)

@@ -2,6 +2,9 @@ import src.core.database as db
 from src.dividas import models
 from src.dividas import entities
 import sqlalchemy as sa
+from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
+
 
 def create_response_devedor_divida(dict):
     devedor = models.DevedorResponse(id=dict[0]["Devedor"].id, name=dict[0]["Devedor"].name)
@@ -28,8 +31,8 @@ def create_response_devedor_divida(dict):
 
 class DividasReposiry:
 
-    def __init__(self):
-        self._session = None
+    def __init__(self, session : AsyncSession = None):
+        self._session = session
 
 
     async def create_devedor(self, devedor_create: models.DevedorCreateRequest, user_id: int) -> models.DevedorResponse:
@@ -106,3 +109,11 @@ class DividasReposiry:
                 )
             )
         return devedores
+
+    async def quitar_dividas(self, dividas: List[models.DividasRequestId]):
+
+        for divida in dividas:
+            _divida: entities.Divida = await  self._session.get(entities.Divida, divida.id)
+            _divida.status = True
+            self._session.add(_divida)
+            await self._session.commit()

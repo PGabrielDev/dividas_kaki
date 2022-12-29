@@ -1,6 +1,6 @@
 from src.dividas import  models
 from src.dividas.repository import DividasReposiry
-
+from typing import List
 class CreateDevedorUseCase:
     def __init__(self, devedor: models.DevedorCreateRequest, user_id):
         self._devedor = devedor
@@ -39,7 +39,14 @@ class ListDevedorUseCase:
     async def _list_devedores(self):
         return  await self._dividas_repository.list_devedores(self._id)
 
-
+class QuitarDividasUseCase:
+    def __init__(self, dividas: List[models.DividasRequestId], session):
+        self._dividas = dividas
+        self._repository = DividasReposiry(session)
+    async def execute(self):
+        await self._quitar_dividas()
+    async def _quitar_dividas(self):
+        await self._repository.quitar_dividas(self._dividas)
 class ListDebtsByDevedorUseCase:
 
     def __init__(self, id_devedor: int, devedor: str = ""):

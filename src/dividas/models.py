@@ -30,6 +30,9 @@ class DividasResponse(settings.Model):
     status: bool
     devedor_id: int
 
+class DividasRequestId(settings.Model):
+    id: int
+
 class DevedorDividasResponse(settings.Model):
     devedor: DevedorResponse
     dividas: List[DividasResponse]

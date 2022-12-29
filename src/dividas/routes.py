@@ -39,6 +39,11 @@ async def list_debts_by_devedor(
 async def list_devedores(usuario: Usuario = Depends(deps.get_current_user)):
     return await use_cases.ListDevedorUseCase(usuario.id).execute()
 
+@dividas_router.post("dividas/quitar", response_model=None, status_code=204)
+async def quitar_dividas(request: List[models.DividasRequestId], usuario: Usuario = Depends(deps.get_current_user), session = Depends(deps.get_session)):
+    async with session as _session:
+        await use_cases.QuitarDividasUseCase(request, _session).execute()
+
 
 @dividas_router.post("/signup", response_model=UsuarioModel)
 async def create_user(usuario_create: UsuarioModelCreate, db = Depends(deps.get_session)):
